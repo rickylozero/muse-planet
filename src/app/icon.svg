@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-labelledby="title">
+  <title id="title">沐智星球親子平台 (Muse Planet)</title>
+  <defs>
+    <linearGradient id="copper" x1="8" y1="9" x2="55" y2="55" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7D7AA"/>
+      <stop offset=".27" stop-color="#B87333"/>
+      <stop offset=".54" stop-color="#E8B873"/>
+      <stop offset=".8" stop-color="#814519"/>
+      <stop offset="1" stop-color="#D49555"/>
+    </linearGradient>
+    <radialGradient id="forest" cx=".3" cy=".25" r=".85">
+      <stop stop-color="#5B874F"/>
+      <stop offset="1" stop-color="#2D5A27"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="21" fill="#F4F9F9"/>
+  <circle cx="32" cy="32" r="18.2" fill="url(#forest)"/>
+  <path d="M21 32c3.1-4.6 6.8-6.8 11.3-6.9 4.7-.1 8.3 2.1 11.4 6.5M22 36c5.7 3.1 12.7 3.3 19 .7" stroke="#F4F9F9" stroke-width="1.7" stroke-linecap="round" opacity=".85"/>
+  <ellipse cx="32" cy="32" rx="28" ry="9.4" transform="rotate(-25 32 32)" stroke="url(#copper)" stroke-width="3.4"/>
+  <circle cx="56.7" cy="21.4" r="3.2" fill="url(#copper)"/>
+  <circle cx="8.3" cy="42.7" r="2.5" fill="url(#copper)"/>
+  <circle cx="37.8" cy="3.2" r="2.2" fill="url(#copper)"/>
+</svg>

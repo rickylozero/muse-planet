@@ -1,0 +1,1 @@
+-- Schema will be applied after the reviewed migration is authored.
