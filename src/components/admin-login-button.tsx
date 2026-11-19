@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { LogIn } from "lucide-react";
-import { createClient } from "@/lib/supabase/admin.ts";
+import { createClient } from "@supabase/supabase-js";
 
 export function AdminLoginButton() {
   const [isLoading, setIsLoading] = useState(false);
@@ -10,7 +10,11 @@ export function AdminLoginButton() {
   const handleLogin = async () => {
     setIsLoading(true);
     try {
-      const supabase = createClient();
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      );
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "github",
         options: {
