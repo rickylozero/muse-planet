@@ -12,9 +12,9 @@ import { PlanetIllustration } from "@/components/planet-illustration";
 import { getCurrentAdmin } from "@/lib/auth/session";
 
 const reasonCopy: Record<string, string> = {
-  oauth_failed: "Manus 登入未能完成，請重新開始。",
-  identity_failed: "無法確認 Manus 帳戶身份，請重新登入。",
-  not_authorized: "此 Manus 帳戶未獲 CMS 管理員授權。",
+  oauth_failed: "GitHub 登入未能完成，請重新開始。",
+  identity_failed: "無法確認 GitHub 帳戶身份，請重新登入。",
+  not_authorized: "此 GitHub 帳戶未獲 CMS 管理員授權。",
   oauth_unavailable: "登入服務暫時無法使用，請稍後再試。",
 };
 
@@ -74,13 +74,13 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
           </p>
           <h2 id="admin-login-title">編輯與審核工作台</h2>
           <p className="admin-auth-copy">
-            使用已獲授權的 Manus 帳戶登入，即可整理內容並協助優質資訊安全發布。
+            使用已獲授權的 GitHub 帳戶登入，即可整理內容並協助優質資訊安全發布。
           </p>
           {message && <p className="admin-feedback" data-state="error" role="alert">{message}</p>}
           <AdminLoginButton />
           <p className="admin-auth-footnote">
             <LockKeyhole size={14} aria-hidden="true" />
-            登入驗證由 Manus OAuth 處理；平台密鑰不會送到瀏覽器。
+            登入驗證由 Supabase 安全處理；認證密鑰不會送到瀏覽器。
           </p>
           <Link className="admin-back-link" href="/">
             <Orbit size={14} aria-hidden="true" />
