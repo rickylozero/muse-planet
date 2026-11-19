@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { LogIn } from "lucide-react";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/lib/supabase/admin.ts";
 
 export function AdminLoginButton() {
   const [isLoading, setIsLoading] = useState(false);
