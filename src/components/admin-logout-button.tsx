@@ -1,30 +1,39 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { LogOut } from "lucide-react";
+import { LogIn } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
 
-export function AdminLogoutButton() {
-  const router = useRouter();
-  const [busy, setBusy] = useState(false);
+export function AdminLoginButton() {
+  const [isLoading, setIsLoading] = useState(false);
 
-  async function logout() {
-    setBusy(true);
+  const handleLogin = async () => {
+    setIsLoading(true);
     try {
-      await fetch("/api/auth/logout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        cache: "no-store",
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "github",
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
       });
-    } finally {
-      router.replace("/admin/login");
+
+      if (error) throw error;
+    } catch (err: any) {
+      console.error("登入錯誤:", err.message);
+      alert("登入失敗，請確認網路連線或稍後再試。");
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
-    <button className="admin-logout-button" type="button" onClick={logout} disabled={busy}>
-      <LogOut size={16} aria-hidden="true" />
-      {busy ? "正在登出…" : "登出"}
+    <button
+      onClick={handleLogin}
+      disabled={isLoading}
+      className="admin-login-btn w-full flex items-center justify-center gap-2 bg-[#9E6438] hover:bg-[#85512B] text-white py-3 px-4 rounded-xl font-medium transition-all duration-200"
+    >
+      <LogIn size={18} />
+      {isLoading ? "正在連接認證..." : "使用 GitHub 帳戶登入 ↗"}
     </button>
   );
 }
