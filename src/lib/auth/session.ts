@@ -30,11 +30,11 @@ function encodeBase64Url(value: string | Buffer): string {
 }
 
 function getSigningKey(): string | null {
-  return process.env.MANUS_JWT_SECRET || null;
+  return process.env.MANUS_JWT_SECRET || process.env.SUPABASE_SECRET_KEY || null;
 }
 
 function getAppId(): string | null {
-  return process.env.MANUS_PROJECT_ID || null;
+  return process.env.MANUS_PROJECT_ID || "muse-planet";
 }
 
 function isJsonRecord(value: unknown): value is Record<string, unknown> {
