@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     const accessToken = body.accessToken?.trim();
 
     if (!accessToken) {
-      return NextResponse.json({ error: "oauth_failed" }, { status: 400 });
+      return NextResponse.json({ error: "missing_token" }, { status: 400 });
     }
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -27,7 +27,8 @@ export async function POST(request: NextRequest) {
     const { data, error } = await supabase.auth.getUser(accessToken);
 
     if (error || !data.user || !data.user.email) {
-      return NextResponse.json({ error: "identity_failed" }, { status: 401 });
+      const detail = error?.message || "no_email";
+      return NextResponse.json({ error: `identity_failed_${detail}` }, { status: 401 });
     }
 
     if (!isAdminEmailAllowed(data.user.email)) {
@@ -55,7 +56,8 @@ export async function POST(request: NextRequest) {
       getSessionCookieOptions(verifiedOrigin ?? request.nextUrl.origin),
     );
     return response;
-  } catch {
-    return NextResponse.json({ error: "oauth_failed" }, { status: 500 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "unknown";
+    return NextResponse.json({ error: `server_error_${message}` }, { status: 500 });
   }
 }
