@@ -61,3 +61,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: `server_error_${message}` }, { status: 500 });
   }
 }
+export async function DELETE(request: NextRequest) {
+  const origin = request.headers.get("origin") || request.nextUrl.origin;
+  const response = NextResponse.json({ ok: true });
+  response.cookies.set(
+    SESSION_COOKIE_NAME,
+    "",
+    getSessionCookieOptions(origin, 0),
+  );
+  return response;
+}
