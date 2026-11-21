@@ -26,40 +26,35 @@ export default function AuthCallbackPage() {
         });
 
         if (res.ok) {
-          router.replace("/admin");
-          router.refresh();
+          window.location.href = "/admin";
           return;
         }
 
         const data = (await res.json().catch(() => ({}))) as { error?: string };
-        router.replace(`/admin/login?reason=${data.error || "oauth_failed"}`);
+        const reason = data.error || `http_${res.status}`;
+        router.replace(`/admin/login?reason=${encodeURIComponent(reason)}`);
       } catch {
-        router.replace("/admin/login?reason=oauth_failed");
+        router.replace("/admin/login?reason=fetch_error");
       }
     };
 
     const init = async () => {
+      // 1. 直接從網址的 #access_token=... 讀取
+      const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+      const hashToken = hashParams.get("access_token");
+      if (hashToken) {
+        await exchangeSession(hashToken);
+        return;
+      }
+
+      // 2. 若網址沒有，再從 Supabase Session 讀取
       const { data } = await supabase.auth.getSession();
       if (data.session?.access_token) {
         await exchangeSession(data.session.access_token);
         return;
       }
 
-      const { data: listener } = supabase.auth.onAuthStateChange(
-        async (_event, session) => {
-          if (session?.access_token) {
-            listener.subscription.unsubscribe();
-            await exchangeSession(session.access_token);
-          }
-        },
-      );
-
-      setTimeout(() => {
-        if (!handled) {
-          listener.subscription.unsubscribe();
-          router.replace("/admin/login?reason=oauth_failed");
-        }
-      }, 6000);
+      router.replace("/admin/login?reason=no_token");
     };
 
     init();
